@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tools for Electrical Engineering</title>
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1A1A1D;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #A64D79;
+            margin-bottom: 20px;
+            z-index: 2;
+            position: relative;
+            font-size: 3rem;
+        }
+
+        p {
+            text-align: center;
+            margin: 10px 0 30px;
+            font-size: 18px;
+            color: #ddd;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Cards container */
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Individual card */
+        .card {
+            background-color: #6A1E55;
+            border-radius: 15px;
+            padding: 30px;
+            width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            text-align: center;
+            overflow: hidden;
+            opacity: 0.9;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            opacity: 1;
+        }
+
+        .card h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #f4f4f9;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .card button {
+            background-color: #A64D79;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #FFC0CB;
+            color: #1A1A1D;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            z-index: 2;
+            position: relative;
+        }
+
+        footer a {
+            color: #A64D79;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Electrical animation background */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .line {
+            position: absolute;
+            background-color: #A64D79;
+            width: 2px;
+            height: 100%;
+            opacity: 0.5;
+            animation: move-line 6s linear infinite;
+        }
+
+        @keyframes move-line {
+            0% { top: 0; left: -100%; }
+            100% { top: 100%; left: 100%; }
+        }
+
+        .spark {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #A64D79;
+            animation: spark 1.5s infinite alternate;
+        }
+
+        @keyframes spark {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .wave {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #A64D79;
+            opacity: 0.3;
+            animation: wave-animation 6s linear infinite;
+        }
+
+        @keyframes wave-animation {
+            0% { transform: translateY(-50px); }
+            50% { transform: translateY(50px); }
+            100% { transform: translateY(-50px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .cards {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .card {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background">
+        <!-- Create lines, sparks, and waves -->
+        <div class="line" style="top: 0; left: 0; animation-duration: 6s;"></div>
+        <div class="line" style="top: 0; left: 10%; animation-duration: 5s;"></div>
+        <div class="line" style="top: 0; left: 20%; animation-duration: 7s;"></div>
+        <div class="line" style="top: 0; left: 30%; animation-duration: 8s;"></div>
+        <div class="line" style="top: 0; left: 40%; animation-duration: 4s;"></div>
+        <div class="wave" style="top: 50%;"></div>
+        <div class="wave" style="top: 40%; animation-duration: 8s;"></div>
+        <div class="wave" style="top: 60%; animation-duration: 5s;"></div>
+
+        <!-- Random sparks -->
+        <div class="spark" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+        <div class="spark" style="top: 40%; left: 50%; animation-delay: 1s;"></div>
+        <div class="spark" style="top: 60%; left: 30%; animation-delay: 2s;"></div>
+        <div class="spark" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <h1>Interactive Tools for Electrical Engineering</h1>
+    <p>Choose one of the calculators below to get started!</p>
+    <div class="cards">
+       
+
+        <!-- Color Code Generator Card -->
+        <div class="card">
+            <h2>Color Code Generator</h2>
+            <p>Generate resistance values based on resistor color codes.</p>
+            <button onclick="navigateTo('color.html')">Open Tool</button>
+        </div>
+
+        <!-- Ohm's Law Calculator Card -->
+        <div class="card">
+            <h2>parallel and series resistance Calculator</h2>
+            <p>Calculate individual restance or equivalent resistance.</p>
+            <button onclick="navigateTo('series.html')">Open Tool</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created with ❤️ by <a href="#">CHOKKANI THARUN</a></p>
+    </footer>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

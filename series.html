@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series and Parallel Circuit Solver</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1A1A1D;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            color: #A64D79;
+        }
+        .container {
+            background-color: #6A1E55;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #A64D79;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #FFC0CB;
+            color: #1A1A1D;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #FFC0CB;
+        }
+    </style>
+</head>
+<body>
+    <h1>Series and Parallel Circuit Solver</h1>
+    <div class="container">
+        <label for="values">Enter component values (comma-separated):</label>
+        <input type="text" id="values" placeholder="e.g., 10, 20, 30">
+        
+        <label for="target">Enter equivalent resistance/capacitance (optional):</label>
+        <input type="number" id="target" placeholder="e.g., 15">
+        
+        <label for="type">Choose circuit type:</label>
+        <select id="type">
+            <option value="series-resistance">Series Resistance</option>
+            <option value="parallel-resistance">Parallel Resistance</option>
+            <option value="series-capacitance">Series Capacitance</option>
+            <option value="parallel-capacitance">Parallel Capacitance</option>
+        </select>
+        
+        <button onclick="calculate()">Calculate</button>
+        
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        function calculate() {
+            const valuesInput = document.getElementById("values").value.trim();
+            const target = parseFloat(document.getElementById("target").value);
+            const circuitType = document.getElementById("type").value;
+            const resultDiv = document.getElementById("result");
+
+            // Parse input values
+            const values = valuesInput ? valuesInput.split(",").map(val => parseFloat(val.trim())) : [];
+            if (values.some(isNaN)) {
+                resultDiv.textContent = "Please enter valid numeric values.";
+                return;
+            }
+
+            let result = 0;
+            let explanation = "";
+
+            if (!isNaN(target)) {
+                // Calculate missing component value
+                if (circuitType === "series-resistance" || circuitType === "parallel-capacitance") {
+                    const currentSum = values.reduce((acc, val) => acc + val, 0);
+                    const missingValue = target - currentSum;
+                    explanation = `The missing value is calculated as: Target - Sum of existing values`;
+                    result = missingValue > 0 ? missingValue : "Invalid Target (less than sum)";
+                } else if (circuitType === "parallel-resistance" || circuitType === "series-capacitance") {
+                    const reciprocalSum = values.reduce((acc, val) => acc + 1 / val, 0);
+                    const missingValue = 1 / (1 / target - reciprocalSum);
+                    explanation = `The missing value is calculated as: 1 / (1 / Target - Sum of reciprocals)`;
+                    result = missingValue > 0 ? missingValue : "Invalid Target (greater than reciprocal sum)";
+                }
+            } else {
+                // Calculate equivalent resistance/capacitance
+                if (circuitType === "series-resistance" || circuitType === "parallel-capacitance") {
+                    result = values.reduce((acc, val) => acc + val, 0);
+                    explanation = "For series resistors or parallel capacitors, add all the values.";
+                } else if (circuitType === "parallel-resistance" || circuitType === "series-capacitance") {
+                    const reciprocalSum = values.reduce((acc, val) => acc + 1 / val, 0);
+                    result = 1 / reciprocalSum;
+                    explanation = "For parallel resistors or series capacitors, take the reciprocal of the sum of reciprocals.";
+                }
+            }
+
+            resultDiv.innerHTML = `
+                <strong>Result:</strong> ${!isNaN(result) ? result.toFixed(2) : result}<br>
+                <em>${explanation}</em>
+            `;
+        }
+    </script>
+</body>
+</html>
